@@ -1,0 +1,9 @@
+#基础镜像
+FROM python:3.10
+
+COPY ./source/ /app
+# 安装依赖
+RUN pip3 install -r /app/requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+
+WORKDIR /app
+CMD ["python", "main.py"]
