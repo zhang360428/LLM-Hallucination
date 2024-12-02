@@ -28,7 +28,7 @@ Triggering and alleviating hallucinations in large language models
 
 解决该问题的关键在于以下三个方面：
 
-1. 上下文检索
+#### 1. 上下文检索
 
 检索是整个方法的核心环节，通过查询与知识库句子的相似度计算，提取出与查询最相关的上下文信息。优化上下文检索能够有效提升生成回答的相关性。
 
@@ -36,7 +36,7 @@ Triggering and alleviating hallucinations in large language models
 
 多句子检索：单句检索可能无法覆盖复杂查询的所有关键信息。因此，我们设计了多句子检索方法，从知识库中提取多个相关句子，并将其拼接为长上下文。
 
-2. 高效批量处理
+#### 2. 高效批量处理
 
 为应对多查询任务，批量化处理不仅可以提升运行效率，还能节省计算资源。
 
@@ -44,7 +44,7 @@ Triggering and alleviating hallucinations in large language models
 
 批量计算相似度：通过矩阵运算计算多个查询与知识库所有句子的相似度，避免循环调用模型，显著减少时间开销。
 
-3. 提示优化（Prompt Engineering）
+#### 3. 提示优化（Prompt Engineering）
 
 Prompt 是引导大模型生成高质量答案的关键。提示设计需要引导模型利用检索到的上下文，生成准确且不引入幻觉的回答。
 
