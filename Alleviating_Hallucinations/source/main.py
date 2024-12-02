@@ -1,12 +1,12 @@
 #数据目录，约定读取挂载数据的目录
-data_path = "/datacon2024/AI/CQ2"
-model_path = "/datacon2024/AI/Models"
+data_path = "./Input"
+model_path = "./Model"
 
 #具体的文件
 q_file_path=f"{data_path}/Q.txt"
 kb_file_path = f"{data_path}/KB.txt"
 #输出答案的文件
-output_file = "/result.csv"
+output_file = "./Output/result.csv"
 
 import os
 import csv
