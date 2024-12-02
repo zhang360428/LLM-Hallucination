@@ -1,0 +1,10 @@
+What is the Phishing in spam?
+Can you introduce the Ransomware?
+How to understand Denial of Service?
+What is the Dynamic Analysis in Malware Analysis? 
+How to DDoS detection by Host-based and Network-Based Monitoring?
+What is the hard problems in cryptography?
+Can you introduce the stream ciphers?
+What is the sybil attacks in distributed system?
+Can you introduce the basic HTTP authentication?
+What is the SQL Injection?
