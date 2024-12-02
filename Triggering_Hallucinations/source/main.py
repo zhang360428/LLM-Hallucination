@@ -134,14 +134,14 @@ def perturb_text(text, num_synonyms=2, num_inserts=2, num_words=3):
     return perturbed_text
 
 #数据目录，约定读取挂载数据的目录
-data_path = "/datacon2024/AI"
+data_path = "./Input"
 
 #具体的文件目录
-file_path=f"{data_path}/CQ1/Q.txt"
+file_path=f"{data_path}/Q.txt"
 # file_path = "./Q.txt"
 
 #输出答案的文件
-result_path = "/result.txt"
+result_path = "./Output/result.txt"
 # result_path = "./result.txt"
 
 
