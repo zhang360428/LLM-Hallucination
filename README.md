@@ -1,8 +1,9 @@
 # LLM-Hallucination
 Triggering and alleviating hallucinations in large language models
+
 本项目主要是在大模型幻觉触发与缓解方面的探索。并且提供了一个简单的可替换的框架，让使用者只需要自己替换main.py中的幻觉触发与缓解函数能对大模型幻觉有简单的了解。
 
-输入在Triggering_Hallucinations和Alleviating_Hallucinations两个文件夹下的Input的Q.txt中，读者可自行替换为自己想要触发幻觉的问题，相应的输出会生成在两个文件夹下的Output中
+输入在Triggering_Hallucinations和Alleviating_Hallucinations两个文件夹下的Input的Q.txt中，读者可自行替换为自己想要触发幻觉的问题，相应的输出会生成在两个文件夹下的Output中。此外，需要注意的是**本项目在运行前需要先通过anaconda将两个文件夹下的requirements.txt的依赖进行安装。**
 
 ## 大模型幻觉触发
 读者可以通过替换perturb_text函数，将幻觉触发函数更改为自己的函数
@@ -21,4 +22,44 @@ Triggering and alleviating hallucinations in large language models
 
 
 ## 大模型幻觉缓解
-读者可以通过替换Mitigate_hallucination函数将幻觉缓解函数改为自己的函数，并且除了将Q.txt更改为自己的问题以为，还可以将KB.txt替换为自己的检索知识库
+读者可以通过替换Mitigate_hallucination函数将幻觉缓解函数改为自己的函数，并且除了将Q.txt更改为自己的问题以为，还可以将KB.txt替换为自己的检索知识库。
+
+我们设计了一个完整的检索增强生成方法 RAG(·)，结合知识库(KB.txt)中的上下文信息生成模型输入（Prompt），以缓解大模型生成回答中的幻觉问题。
+
+解决该问题的关键在于以下三个方面：
+
+1. 上下文检索
+
+检索是整个方法的核心环节，通过查询与知识库句子的相似度计算，提取出与查询最相关的上下文信息。优化上下文检索能够有效提升生成回答的相关性。
+
+选择合适的嵌入模型：比赛提供了指定的中文和英文嵌入模型（bge-large-zh-v1.5 / bge-large-en-v1.5）。这些模型已针对检索任务进行了优化，适用于生成句子级别的语义表示。
+
+多句子检索：单句检索可能无法覆盖复杂查询的所有关键信息。因此，我们设计了多句子检索方法，从知识库中提取多个相关句子，并将其拼接为长上下文。
+
+2. 高效批量处理
+
+为应对多查询任务，批量化处理不仅可以提升运行效率，还能节省计算资源。
+
+批量向量化：利用嵌入模型一次性生成多个查询和知识库句子的向量表示。
+
+批量计算相似度：通过矩阵运算计算多个查询与知识库所有句子的相似度，避免循环调用模型，显著减少时间开销。
+
+3. 提示优化（Prompt Engineering）
+
+Prompt 是引导大模型生成高质量答案的关键。提示设计需要引导模型利用检索到的上下文，生成准确且不引入幻觉的回答。
+
+明确上下文范围：在提示中强调回答应仅基于提供的上下文，避免模型生成与上下文无关的内容。
+
+结构化提示：将问题（Query）、上下文（Context）和回答指令分开描述，使提示清晰明了。
+
+问题类型支持：可以根据不同类型的问题（如事实型、推理型）设计不同的提示模板。
+```
+    prompt = (
+        f"Question: {query}\n"
+        f"Context: {context}\n"
+        "Answer the question based on the context provided above. "
+        "Do not include any information that is not in the context. "
+        "Be precise and concise in your answer. "
+        "Answer:"
+    )
+```
